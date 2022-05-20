@@ -39,6 +39,7 @@ class HomeController
         } catch (FileException $e) {
             die($e->getMessage());
         }
+        $this->creatDirectory(self::DIRECTORY);
         $convertService = new ConvertService();
         $convertService->saveWord(self::DIRECTORY.'translate.'.$extension, self::DIRECTORY.'newTranslateFile.'.$extension);
         $convertService->downloadFile(self::DIRECTORY.'newTranslateFile.'.$extension );
@@ -58,5 +59,11 @@ class HomeController
         include self::VIEW_PATH_DIRECTORY;
         return ob_get_clean();
 
+    }
+    private function creatDirectory(string $directoryName):void
+    {
+        if(!\is_dir($directoryName)){
+            \mkdir($directoryName);
+        }
     }
 }
